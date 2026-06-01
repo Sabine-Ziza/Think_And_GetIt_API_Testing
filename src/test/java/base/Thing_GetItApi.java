@@ -153,5 +153,12 @@ public class Thing_GetItApi {
         categoryPojo.setParentId(Data.categoryParentId);
         return RestResource.updateProfile(Route.CATEGORIES, token, categoryPojo);
     }
+    public static Response getSingleCategorySlug(){
+        String slug = getAllCategories().jsonPath().getString("data[1].slug");
+        String path = Route.SINGLE_CATEGORIES + slug;
+        System.out.println(slug);
+        return RestResource.get(path);
+
+    }
 
 }

@@ -5,7 +5,6 @@ public class Data {
     public static final String firstName = "sab" + System.currentTimeMillis();
     public static final String lastName = "ziz" + System.currentTimeMillis();
     public static final String email = "apitesting.sabine" + System.currentTimeMillis() + "@gmail.com";
-//    public static final String currentPassword = "sab12345!!";
     public static final String newPassword = "sab12345!!";
     public static final String loginEmail = "dada@gmail.com";
     public static final String currentPassword = "dada123456!";
@@ -19,9 +18,9 @@ public class Data {
     public static final String postalCode = "123456";
     public static final String userId = "123" + System.currentTimeMillis();
     public static final String label = "yellow";
-    public static final String isDefault = String.valueOf(true);
-//    public static final String newPassword = "ziza" + System.currentTimeMillis();
+    public static final String isDefault = String.valueOf(true);;
     public static final String avatarPath = "src/test/resources/avatar.png";
+
     public static final String categoryName ="jeans";
     public static final String categoryDescription ="jeans for women and girl";
     public static final String categoryParentId = "002";

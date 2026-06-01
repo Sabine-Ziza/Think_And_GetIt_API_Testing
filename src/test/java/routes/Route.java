@@ -1,7 +1,5 @@
 package routes;
 
-import jdk.jfr.Category;
-import org.apache.http.impl.cookie.PublicSuffixDomainFilter;
 
 public class Route {
     public static final String LOGIN = "/auth/login";
@@ -16,6 +14,8 @@ public class Route {
     public static final String AVATAR_LINK = "/users/avatar";
     public static final String UPDATE_PROFILE ="/users/profile";
     public static final String CATEGORIES = "/categories";
+    public static final String SINGLE_CATEGORIES = "/categories/";
+
 
 
 }
