@@ -22,6 +22,9 @@ public class Data {
     public static final String isDefault = String.valueOf(true);
 //    public static final String newPassword = "ziza" + System.currentTimeMillis();
     public static final String avatarPath = "src/test/resources/avatar.png";
+    public static final String categoryName ="jeans";
+    public static final String categoryDescription ="jeans for women and girl";
+    public static final String categoryParentId = "002";
 
 
 }

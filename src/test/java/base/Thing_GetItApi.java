@@ -2,6 +2,7 @@ package base;
 
 import io.restassured.response.Response;
 import org.mozilla.javascript.Token;
+import payload.CategoryPojo;
 import payload.ChangePasswordPojo;
 import payload.ForgotPojo;
 import payload.LoginRequest;
@@ -143,6 +144,14 @@ public class Thing_GetItApi {
     }
     public static Response getAllCategories(){
         return RestResource.get(Route.CATEGORIES);
+    }
+    public static Response CreateCategoryAsCustomer(){
+        String token = login().jsonPath().getString("data.token");
+        CategoryPojo categoryPojo=  new CategoryPojo();
+        categoryPojo.setDescription(Data.categoryDescription);
+        categoryPojo.setName(Data.categoryName);
+        categoryPojo.setParentId(Data.categoryParentId);
+        return RestResource.updateProfile(Route.CATEGORIES, token, categoryPojo);
     }
 
 }
