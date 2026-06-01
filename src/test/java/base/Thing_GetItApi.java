@@ -141,5 +141,8 @@ public class Thing_GetItApi {
 
 
     }
+    public static Response getAllCategories(){
+        return RestResource.get(Route.CATEGORIES);
+    }
 
 }
