@@ -1,6 +1,8 @@
 package routes;
 
 
+import payload.ProductPojo;
+
 public class Route {
     public static final String LOGIN = "/auth/login";
     public static final String CURRENT_USER = "/auth/me";
@@ -15,6 +17,10 @@ public class Route {
     public static final String UPDATE_PROFILE ="/users/profile";
     public static final String CATEGORIES = "/categories";
     public static final String SINGLE_CATEGORIES = "/categories/";
+    public static final String PRODUCT ="/products";
+    public static final String SINGLE_PRODUCT = "/products/";
+    public static final String TRANDING_PRODUCT = "/products/trending";
+
 
 
 

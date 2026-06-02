@@ -3,6 +3,7 @@ package base;
 
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import payload.ProductPojo;
 
 import java.io.File;
 
@@ -73,13 +74,28 @@ public class RestResource {
 
     }
 
-    public static Response put(String endpoint,
+    public static Response postAvatar(String endpoint,
                                String token,
                                File file) {
 
         return given()
                 .header("Authorization", "Bearer " + token)
                 .multiPart("avatar", file, "image/png")
+                .when()
+                .post(endpoint)
+                .then()
+                .log().all()
+                .extract()
+                .response();
+    }
+    public static Response postProduct(String endpoint,
+                                       String token,
+                                       ProductPojo payload) {
+
+        return given()
+                .spec(SpecBuilder.getRequestSpec())
+                .header("Authorization", "Bearer " + token)
+                .body(payload)
                 .when()
                 .post(endpoint)
                 .then()

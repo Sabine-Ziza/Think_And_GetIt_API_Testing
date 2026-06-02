@@ -25,5 +25,12 @@ public class Data {
     public static final String categoryDescription ="jeans for women and girl";
     public static final String categoryParentId = "002";
 
+    public static final String productName = "Test Product";
+    public static final String productDescription = "Created via automation test";
+    public static final double productPrice = 10.5;
+    public static final double productComparePrice = 15.0;
+    public static final String productCategoryId = "87cdfbe4-74e4-4937-bce1-5d3acc159111";
+
+
 
 }

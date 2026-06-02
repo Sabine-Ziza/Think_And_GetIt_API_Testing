@@ -1,11 +1,7 @@
 package base;
 
 import io.restassured.response.Response;
-import org.mozilla.javascript.Token;
-import payload.CategoryPojo;
-import payload.ChangePasswordPojo;
-import payload.ForgotPojo;
-import payload.LoginRequest;
+import payload.*;
 import payload.register.AddressPojo;
 import payload.register.RegisterPOJO;
 import routes.Route;
@@ -13,7 +9,6 @@ import routes.Route;
 import java.io.File;
 import java.util.Map;
 
-import static base.Data.avatarPath;
 import static base.Data.currentPassword;
 
 
@@ -127,7 +122,7 @@ public class Thing_GetItApi {
         System.out.println(file.exists());
         System.out.println(file.length());
 
-        return RestResource.put(Route.AVATAR_LINK, token, file);
+        return RestResource.postAvatar(Route.AVATAR_LINK, token, file);
     }
     public static Response updateProfile(){
         String token = login().jsonPath().getString("data.token");
@@ -159,6 +154,29 @@ public class Thing_GetItApi {
         System.out.println(slug);
         return RestResource.get(path);
 
+    }
+    public static Response getProduct(int i, int i1){
+        return RestResource.get(Route.PRODUCT);
+    }
+    public static Response createProduct(){
+        String token = login().jsonPath().getString("data.token");
+        ProductPojo productPojo = new ProductPojo();
+
+        productPojo.setName(Data.productName);
+        productPojo.setDescription(Data.productDescription);
+        productPojo.setCategoryId(Data.productCategoryId);
+        productPojo.setPrice(Data.productPrice);
+        productPojo.setComparePrice(Data.productComparePrice);
+
+        return RestResource.postProduct(Route.PRODUCT, token, productPojo);
+
+    }
+    public static Response getSingleProductBySlug(){
+        String slug = getProduct(1, 2).jsonPath().getString("data[0].slug");
+        return RestResource.get(Route.SINGLE_PRODUCT + slug);
+    }
+    public static Response getTrendingProduct(){
+        return RestResource.get(Route.TRANDING_PRODUCT);
     }
 
 }
