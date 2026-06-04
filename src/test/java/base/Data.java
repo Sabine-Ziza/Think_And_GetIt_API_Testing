@@ -8,6 +8,8 @@ public class Data {
     public static final String newPassword = "sab12345!!";
     public static final String loginEmail = "dada@gmail.com";
     public static final String currentPassword = "dada123456!";
+    public static final String AdminloginEmail = "admin@thinkandgetit.com";
+    public static final String AdminPassword = "Admin@123456";
 
     public static final String address = "kigali";
     public static final String phone = "0788" + System.currentTimeMillis();

@@ -10,15 +10,15 @@ import java.io.File;
 import java.util.Map;
 
 import static base.Data.currentPassword;
+import static base.Data.productCategoryId;
 
 
 public class Thing_GetItApi {
 
-//    private static String activePassword = currentPassword;
     public static Response login() {
         LoginRequest payload = new LoginRequest();
-        payload.setEmail(Data.loginEmail);
-        payload.setPassword(Data.currentPassword);
+        payload.setEmail(Data.AdminloginEmail);
+        payload.setPassword(Data.AdminPassword);
         System.out.println(payload);
         System.out.println(payload.getEmail());
         System.out.println(payload.getPassword());
@@ -160,11 +160,13 @@ public class Thing_GetItApi {
     }
     public static Response createProduct(){
         String token = login().jsonPath().getString("data.token");
+        String id = login().jsonPath().getString("data.id");
         ProductPojo productPojo = new ProductPojo();
 
         productPojo.setName(Data.productName);
         productPojo.setDescription(Data.productDescription);
         productPojo.setCategoryId(Data.productCategoryId);
+        System.out.println("ID being sent: " + productCategoryId);
         productPojo.setPrice(Data.productPrice);
         productPojo.setComparePrice(Data.productComparePrice);
 
