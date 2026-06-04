@@ -180,5 +180,15 @@ public class Thing_GetItApi {
     public static Response getTrendingProduct(){
         return RestResource.get(Route.TRANDING_PRODUCT);
     }
+    public static Response getFlashSales(){
+        return RestResource.get(Route.FLASH_SALES);
+    }
+    public static Response getRelatedProduct(){
+        String token = login().jsonPath().getString("data.token");
+        String id = getSingleProductBySlug().jsonPath().getString("data.id");
+        String path = Route.RELATED_PRODUCT + id + Route.RELATED_PRODUCT_SUFFIX;
+        return RestResource.getCurrentUser(path, token);
+    }
+
 
 }

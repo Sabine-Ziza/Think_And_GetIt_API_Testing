@@ -10,4 +10,5 @@ public class ProductPojo {
     private double price;
     private double comparePrice;
     private String categoryId;
+    private String productId;
 }

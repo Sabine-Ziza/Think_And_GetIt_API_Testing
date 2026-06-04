@@ -20,6 +20,9 @@ public class Route {
     public static final String PRODUCT ="/products";
     public static final String SINGLE_PRODUCT = "/products/";
     public static final String TRANDING_PRODUCT = "/products/trending";
+    public static final String FLASH_SALES ="/products/flash-sales";
+    public static final String RELATED_PRODUCT ="/products/";
+    public static final String RELATED_PRODUCT_SUFFIX = "/related";
 
 
 
