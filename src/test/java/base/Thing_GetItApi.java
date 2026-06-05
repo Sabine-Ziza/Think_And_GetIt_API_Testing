@@ -190,5 +190,9 @@ public class Thing_GetItApi {
         return RestResource.getCurrentUser(path, token);
     }
 
+    public static Response getCartProduct(){
+        return RestResource.get(Route.CART);
+    }
+
 
 }

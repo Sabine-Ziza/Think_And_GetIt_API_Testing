@@ -23,6 +23,7 @@ public class Route {
     public static final String FLASH_SALES ="/products/flash-sales";
     public static final String RELATED_PRODUCT ="/products/";
     public static final String RELATED_PRODUCT_SUFFIX = "/related";
+    public static final String CART= "/cart";
 
 
 
