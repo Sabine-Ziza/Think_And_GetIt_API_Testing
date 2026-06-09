@@ -1,12 +1,14 @@
 
 package base;
 
+import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import payload.ProductPojo;
 
 import java.io.File;
 
+import static base.SpecBuilder.getRequestSpec;
 import static base.SpecBuilder.getResponseSpec;
 import static io.restassured.RestAssured.given;
 
@@ -77,6 +79,8 @@ public class RestResource {
     public static Response postAvatar(String endpoint,
                                String token,
                                File file) {
+        System.out.println("Base URI = " + RestAssured.baseURI);
+        System.out.println("Endpoint = " + endpoint);
 
         return given()
                 .header("Authorization", "Bearer " + token)
@@ -87,10 +91,11 @@ public class RestResource {
                 .log().all()
                 .extract()
                 .response();
+
     }
     public static Response postProduct(String endpoint,
                                        String token,
-                                       ProductPojo payload) {
+                                       Object payload) {
 
         return given()
                 .spec(SpecBuilder.getRequestSpec())
@@ -128,5 +133,16 @@ public class RestResource {
                 .response();
     }
 
+    public static Response delete(String endpoint, String token) {
+        return given()
+                .spec(SpecBuilder.getRequestSpec())
+                .header("Authorization", "Bearer " + token)
+                .when()
+                .delete(endpoint)
+                .then()
+                .log().all()
+                .extract()
+                .response();
+    }
 
 }

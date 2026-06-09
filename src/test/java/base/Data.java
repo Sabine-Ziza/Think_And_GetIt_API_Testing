@@ -32,7 +32,11 @@ public class Data {
     public static final double productPrice = 10.5;
     public static final double productComparePrice = 15.0;
     public static final String productCategoryId = "87cdfbe4-74e4-4937-bce1-5d3acc159111";
-    public static final String productId ="";
+    public static final String productId ="89c903cd-df0d-441a-9a68-a0b8465a3109";
+    public static final Integer quantity = 3;
+    public static final  String variantsId = "8e6a3ecb-050c-4768-b1c3-92315b7fb8c5";
+    public static final String paymentMethod ="CASH_ON_DELIVERY";
+
 
 
 

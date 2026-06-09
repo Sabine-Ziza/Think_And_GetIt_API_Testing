@@ -13,6 +13,10 @@ public class AddUserAddress {
         Response addressRequest = Thing_GetItApi.addNewAddress();
         System.out.println(addressRequest);
         addressRequest.prettyPrint();
-        Assert.assertEquals(addressRequest.statusCode(), StatusCode.CODE_200.getCode());
+        Assert.assertEquals(addressRequest.statusCode(), StatusCode.CODE_201.getCode());
+        Assert.assertEquals(
+                addressRequest.jsonPath().getString("message"),
+                "Address added"
+        );
     }
 }

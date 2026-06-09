@@ -7,6 +7,7 @@ import payload.register.RegisterPOJO;
 import routes.Route;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.Map;
 
 import static base.Data.currentPassword;
@@ -70,28 +71,29 @@ public class Thing_GetItApi {
         String response = login().jsonPath().getString("data.token");
         return RestResource.getCurrentUser(Route.USER_ADDRESS, response);
     }
-    public static Response addNewAddress(){
-        AddressPojo addressRequest = new AddressPojo();
-        String token = login().jsonPath().getString("data.token");
-        System.out.println("Token: " + token);
-        System.out.println("Request going to: " + Route.NEW_ADDRESS);
+    public static Response addNewAddress() {
 
-        addressRequest.setAddress(Data.address);
-        addressRequest.setFirstName(Data.firstName);
-        addressRequest.setLastName(Data.lastName);
-        addressRequest.setPhone(Data.phone);
-        addressRequest.setEmail(Data.email);
-        addressRequest.setStreet(Data.street);
-        addressRequest.setCity(Data.city);
-        addressRequest.setPassword(currentPassword);
-        addressRequest.setState(Data.state);
-        addressRequest.setCountry(Data.country);
-        addressRequest.setPostalCode(Data.postalCode);
-        addressRequest.setUserId(Data.userId);
-        addressRequest.setLabel(Data.label);
-        addressRequest.setLabel(Data.isDefault);
-        System.out.println(addressRequest);
-        return RestResource.addAddress(Route.NEW_ADDRESS, token, addressRequest);
+        String token = login().jsonPath().getString("data.token");
+
+        Map<String, Object> body = new HashMap<>();
+
+        body.put("firstName", "sab1780997261737");
+        body.put("lastName", "ziz1780997261737");
+
+        body.put("street", "kk448");
+        body.put("city", "kayonza");
+        body.put("state", "mombasa");
+        body.put("country", "Rwanda");
+        body.put("postalCode", "123456");
+        body.put("phone", "078943322");
+
+        body.put("userId", "d0a82fb0-830f-4800-b855-011e7211d458" + System.currentTimeMillis());
+        body.put("label", "home");
+        body.put("isDefault", false);
+
+        System.out.println(body);
+
+        return RestResource.addAddress(Route.NEW_ADDRESS, token, body);
     }
     public static Response getChangePassword(){
         ChangePasswordPojo passwordPojo = new ChangePasswordPojo();
@@ -193,6 +195,59 @@ public class Thing_GetItApi {
     public static Response getCartProduct(){
         return RestResource.get(Route.CART);
     }
+
+    public static Response addProductToCart(){
+        String token = login().jsonPath().getString("data.token");
+        CartPojo cartPojo = new CartPojo();
+        cartPojo.setProductId(Data.productId);
+        cartPojo.setQuantity(Data.quantity);
+        cartPojo.setVariantId(Data.variantsId);
+
+        return RestResource.postProduct(Route.ADD_CART,token, cartPojo);
+   }
+
+    public static Response deleteCartItem(){
+        String token = login().jsonPath().getString("data.token");
+
+
+
+        return RestResource.delete(Route.CART, token);
+    }
+    public static Response updateCart(){
+        String token = login().jsonPath().getString("data.token");
+        CartPojo cartPojo = new CartPojo();
+        cartPojo.setQuantity(Data.quantity);
+        String cartItem = addProductToCart().jsonPath().getString("data.itemId[0].id");
+        String id = Route.UPDATE_CART + cartItem;
+        return RestResource.updateProfile(id, token, cartPojo);
+    }
+    public static Response getUsersOrders(){
+        String token = login().jsonPath().getString("data.token");
+        return RestResource.getCurrentUser(Route.ORDERS, token);
+
+
+    }
+    public static Response placeOrders(){
+        String token = login().jsonPath().getString("data.token");
+        Response addressResponse = addNewAddress();
+        String addressId = addressResponse.jsonPath().getString("data.id");
+
+        OrderPojo order = new OrderPojo();
+       order.setAddressId(addressId);
+        order.setPaymentMethod(Data.paymentMethod);
+        order.setNotes("Test Order");
+        order.setShippingFee(0);
+        return RestResource.addAddress(Route.ORDERS, token, order);
+    }
+    public static Response getSingleOrder(){
+
+        String token = login().jsonPath().getString("data.token");
+        String ordersId = placeOrders().jsonPath().getString("data.id");
+        String id = Route.SINGLE_ORDER + ordersId;
+        System.out.println("Order ID = " + ordersId);
+        return RestResource.getCurrentUser(id, token);
+    }
+
 
 
 }
