@@ -11,16 +11,7 @@ public class Data {
     public static final String AdminloginEmail = "admin@thinkandgetit.com";
     public static final String AdminPassword = "Admin@123456";
 
-    public static final String address = "kigali";
     public static final String phone = "0788" + System.currentTimeMillis();
-    public static final String street = "kk448";
-    public static final String city = "kayonza";
-    public static final String state = "mombasa";
-    public static final String country = "Rwanda";
-    public static final String postalCode = "123456";
-    public static final String userId = "123" + System.currentTimeMillis();
-    public static final String label = "yellow";
-    public static final String isDefault = String.valueOf(true);;
     public static final String avatarPath = "src/test/resources/avatar.png";
 
     public static final String categoryName ="jeans";
@@ -36,6 +27,8 @@ public class Data {
     public static final Integer quantity = 3;
     public static final  String variantsId = "8e6a3ecb-050c-4768-b1c3-92315b7fb8c5";
     public static final String paymentMethod ="CASH_ON_DELIVERY";
+    public static final String couponCode = ("SAVE15NOW");
+    public static final String orderMessage ="Order not found";
 
 
 

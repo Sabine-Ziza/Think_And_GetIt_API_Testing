@@ -144,5 +144,16 @@ public class RestResource {
                 .extract()
                 .response();
     }
+    public static Response patch(String endpoint, String token) {
+        return given()
+                .spec(SpecBuilder.getRequestSpec())
+                .header("Authorization", "Bearer " + token)
+                .when()
+                .patch(endpoint)
+                .then()
+                .log().all()
+                .extract()
+                .response();
+    }
 
 }

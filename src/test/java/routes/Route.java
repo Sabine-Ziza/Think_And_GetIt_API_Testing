@@ -1,6 +1,8 @@
 package routes;
 
 
+import org.apache.http.impl.cookie.PublicSuffixDomainFilter;
+import org.testng.ITestMethodFinder;
 import payload.ProductPojo;
 
 public class Route {
@@ -28,5 +30,9 @@ public class Route {
     public static final String UPDATE_CART = "/cart/items/";
     public static final String ORDERS = "/orders";
     public static final String SINGLE_ORDER ="/orders/";
+    public static final String DELETE_SINGLE_ITEM ="/cart/items/";
+    public static final String SAVE_ITEM="/cart/items/";
+    public static final String COUPON ="/cart/coupon";
+
 
 }

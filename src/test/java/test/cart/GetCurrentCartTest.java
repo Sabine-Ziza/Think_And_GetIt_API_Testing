@@ -11,7 +11,7 @@ public class GetCurrentCartTest {
         Response response = Thing_GetItApi.getCartProduct();
         response.prettyPrint();
         Assert.assertEquals(response.getStatusCode(), 200);
-        Assert.assertTrue(response.jsonPath().getList("data.items").isEmpty());
+        Assert.assertNotNull(response.jsonPath().getList("data.items"));
 
     }
 

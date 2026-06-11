@@ -1,22 +1,23 @@
-package test.categories;
+package test.cart;
 
 import base.Thing_GetItApi;
 import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class CreateCategoryTest {
+public class ApplyCouponTest {
     @Test
-    public void createCategoryAsCustomerShouldFail() {
-        Response response = Thing_GetItApi.CreateCategoryAsCustomer();
+    public void applyCouponTest(){
+        Response response = Thing_GetItApi.applyCoupon();
         response.prettyPrint();
 
-
-        Assert.assertEquals(response.statusCode(), 403); // if backend uses 403
+        Assert.assertEquals(response.getStatusCode(), 400);
         Assert.assertFalse(response.jsonPath().getBoolean("success"));
         Assert.assertEquals(
                 response.jsonPath().getString("message"),
-                "You do not have permission for this action");
+                "Invalid or expired coupon code"
+        );
 
     }
+
 }
