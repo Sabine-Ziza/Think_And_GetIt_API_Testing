@@ -1,4 +1,4 @@
-package test;
+package test.reviews;
 
 import base.Thing_GetItApi;
 import io.restassured.response.Response;

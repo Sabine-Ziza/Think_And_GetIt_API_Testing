@@ -37,6 +37,8 @@ public class Data {
     public static final String MESSAGE = "Order confirmed by admin";
 
     public static final String TRACKING_NUMBER = "TRK12345";
+    public static final String title = "Great product!";
+    public static final String body = "I really like this product. It works perfectly and meets my expectations.";
 
 
 

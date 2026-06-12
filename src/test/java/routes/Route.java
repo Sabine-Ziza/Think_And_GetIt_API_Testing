@@ -5,6 +5,8 @@ import org.apache.http.impl.cookie.PublicSuffixDomainFilter;
 import org.testng.ITestMethodFinder;
 import payload.ProductPojo;
 
+import javax.management.modelmbean.ModelMBeanNotificationBroadcaster;
+
 public class Route {
     public static final String LOGIN = "/auth/login";
     public static final String CURRENT_USER = "/auth/me";
@@ -39,6 +41,6 @@ public class Route {
     public static String ALL_ORDERS ="/orders/admin/all";
     public static String UPDATE_ORDER_STATUS ="/orders/admin/";
     public static String REVIEWS ="/reviews/";
-
+    public static String SUBMIT_REVIEWS ="/reviews/";
 
 }

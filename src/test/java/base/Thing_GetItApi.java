@@ -346,5 +346,15 @@ public class Thing_GetItApi {
         String path = Route.REVIEWS + productId;
         return RestResource.getCurrentUser(path, token);
     }
+    public static Response submitReviews(){
+        String token = login().jsonPath().getString("data.token");
+        String productId = getSingleProductBySlug().jsonPath().getString("data.id");
+        ReviewsPojo reviewsPojo = new ReviewsPojo();
+        reviewsPojo.setBody(Data.body);
+        reviewsPojo.setTitle(Data.title);
+        String path = Route.SUBMIT_REVIEWS + productId;
+        return RestResource.postProduct(path, token, reviewsPojo);
+
+    }
 
 }
