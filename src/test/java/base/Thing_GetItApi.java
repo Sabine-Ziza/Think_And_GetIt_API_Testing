@@ -340,5 +340,11 @@ public class Thing_GetItApi {
 
         return RestResource.patchStatus(path, token, updateOrderStatusPojo);
     }
+    public static Response getReviews(){
+        String token = login().jsonPath().getString("data.token");
+        String productId = getSingleProductBySlug().jsonPath().getString("data.id");
+        String path = Route.REVIEWS + productId;
+        return RestResource.getCurrentUser(path, token);
+    }
 
 }

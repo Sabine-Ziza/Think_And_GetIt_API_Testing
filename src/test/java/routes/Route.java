@@ -38,6 +38,7 @@ public class Route {
     public static String PAYMENT="/orders/";
     public static String ALL_ORDERS ="/orders/admin/all";
     public static String UPDATE_ORDER_STATUS ="/orders/admin/";
+    public static String REVIEWS ="/reviews/";
 
 
 }
