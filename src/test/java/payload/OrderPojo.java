@@ -8,4 +8,5 @@ public class OrderPojo {
     private String paymentMethod;
     private String notes;
     private int shippingFee;
+    private String reason;
 }

@@ -93,6 +93,24 @@ public class RestResource {
                 .response();
 
     }
+
+    public static Response postproof(String endpoint,
+                                      String token,
+                                      File file) {
+        System.out.println("Base URI = " + RestAssured.baseURI);
+        System.out.println("Endpoint = " + endpoint);
+
+        return given()
+                .header("Authorization", "Bearer " + token)
+                .multiPart("proof", file, "image/png")
+                .when()
+                .post(endpoint)
+                .then()
+                .log().all()
+                .extract()
+                .response();
+
+    }
     public static Response postProduct(String endpoint,
                                        String token,
                                        Object payload) {
@@ -155,5 +173,21 @@ public class RestResource {
                 .extract()
                 .response();
     }
+    public static Response patchStatus(String endpoint,
+                                       String token,
+                                       Object payload) {
+
+        return given()
+                .spec(SpecBuilder.getRequestSpec())
+                .header("Authorization", "Bearer " + token)
+                .body(payload)
+                .when()
+                .patch(endpoint)
+                .then()
+                .log().all()
+                .extract()
+                .response();
+    }
+
 
 }

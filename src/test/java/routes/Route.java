@@ -33,6 +33,11 @@ public class Route {
     public static final String DELETE_SINGLE_ITEM ="/cart/items/";
     public static final String SAVE_ITEM="/cart/items/";
     public static final String COUPON ="/cart/coupon";
+    public static final String CANCEL_ORDER ="/orders/";
+    public static  String RETURN_ORDERS="/orders/";
+    public static String PAYMENT="/orders/";
+    public static String ALL_ORDERS ="/orders/admin/all";
+    public static String UPDATE_ORDER_STATUS ="/orders/admin/";
 
 
 }

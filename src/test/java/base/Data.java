@@ -13,6 +13,7 @@ public class Data {
 
     public static final String phone = "0788" + System.currentTimeMillis();
     public static final String avatarPath = "src/test/resources/avatar.png";
+    public static final String proofPath ="src/test/resources/proof.png";
 
     public static final String categoryName ="jeans";
     public static final String categoryDescription ="jeans for women and girl";
@@ -29,6 +30,14 @@ public class Data {
     public static final String paymentMethod ="CASH_ON_DELIVERY";
     public static final String couponCode = ("SAVE15NOW");
     public static final String orderMessage ="Order not found";
+    public static final String reason ="reason";
+
+    public static final String STATUS_CONFIRMED = "CONFIRMED";
+
+    public static final String MESSAGE = "Order confirmed by admin";
+
+    public static final String TRACKING_NUMBER = "TRK12345";
+
 
 
 

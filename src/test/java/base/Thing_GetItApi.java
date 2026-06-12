@@ -1,6 +1,7 @@
 package base;
 
 import io.restassured.response.Response;
+import org.yaml.snakeyaml.events.Event;
 import payload.*;
 import payload.register.RegisterPOJO;
 import routes.Route;
@@ -217,7 +218,6 @@ public class Thing_GetItApi {
         cartPojo.setProductId(Data.productId);
         cartPojo.setQuantity(Data.quantity);
         cartPojo.setVariantId(Data.variantsId);
-
         return RestResource.postProduct(Route.ADD_CART, token, cartPojo);
     }
 
@@ -270,7 +270,8 @@ public class Thing_GetItApi {
     public static Response getSingleOrder() {
 
         String token = login().jsonPath().getString("data.token");
-        Response orderResponse = placeOrders(); orderResponse.prettyPrint();
+        Response orderResponse = placeOrders();
+        orderResponse.prettyPrint();
         String ordersId = orderResponse.jsonPath().getString("data.id");
         String id = Route.SINGLE_ORDER + ordersId;
         System.out.println("Order ID = " + ordersId);
@@ -297,4 +298,47 @@ public class Thing_GetItApi {
 
 
     }
+
+    public static Response CancelOrder() {
+        String token = login().jsonPath().getString("data.token");
+        String orderId = getSingleOrder().jsonPath().getString("data.items[0].orderId");
+        String path = Route.CANCEL_ORDER + orderId + "/cancel";
+        return RestResource.patch(path, token);
+    }
+
+    public static Response returnOrder() {
+        String token = login().jsonPath().getString("data.token");
+        String orderId = getSingleOrder().jsonPath().getString("data.items[0].orderId");
+        String path = Route.RETURN_ORDERS + orderId + "/return";
+        OrderPojo orderPojo = new OrderPojo();
+        orderPojo.setReason(Data.reason);
+        return RestResource.patch(path, token);
+    }
+
+    public static Response paymentProof() {
+        String token = login().jsonPath().getString("data.token");
+        String orderId = getSingleOrder().jsonPath().getString("data.id");
+        String path = Route.PAYMENT + orderId + "/payment-proof";
+        File file = new File(Data.proofPath);
+        return RestResource.postproof(path, token, file);
+
+    }
+    public static Response getAllOrders(){
+        String token = login().jsonPath().getString("data.token");
+        return RestResource.getCurrentUser(Route.ALL_ORDERS, token);
+    }
+    public static Response updateOrderStatus() {
+        String token = login().jsonPath().getString("data.token");
+        String orderId = getSingleOrder().jsonPath().getString("data.id");
+
+       updateOrderStatusPojo updateOrderStatusPojo = new updateOrderStatusPojo();
+       updateOrderStatusPojo.setMessage(Data.MESSAGE);
+       updateOrderStatusPojo.setStatus(Data.STATUS_CONFIRMED);
+       updateOrderStatusPojo.setTrackingNumber(Data.TRACKING_NUMBER);
+
+       String path = Route.UPDATE_ORDER_STATUS + orderId + "/status";
+
+        return RestResource.patchStatus(path, token, updateOrderStatusPojo);
+    }
+
 }
