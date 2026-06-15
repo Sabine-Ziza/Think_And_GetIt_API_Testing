@@ -368,4 +368,12 @@ public class Thing_GetItApi {
         return RestResource.postWithToken(path, token);
     }
 
+    public static Response deleteProductToWishlist(){
+        String token = login().jsonPath().getString("data.token");
+        String productId = getSingleProductBySlug().jsonPath().getString("data.id");
+        String path = Route.WISHLIST_ADD_PRODUCT + productId;
+        System.out.println("Product ID: " + productId);
+        return RestResource.delete(path, token);
+    }
+
 }
