@@ -356,5 +356,16 @@ public class Thing_GetItApi {
         return RestResource.postProduct(path, token, reviewsPojo);
 
     }
+    public static Response getWishlist(){
+        String token = login().jsonPath().getString("data.token");
+        return RestResource.getCurrentUser(Route.WISHLIST, token);
+    }
+    public static Response addProductToWishlist(){
+        String token = login().jsonPath().getString("data.token");
+        String productId = getSingleProductBySlug().jsonPath().getString("data.id");
+        String path = Route.WISHLIST_ADD_PRODUCT + productId;
+        System.out.println("Product ID: " + productId);
+        return RestResource.postWithToken(path, token);
+    }
 
 }

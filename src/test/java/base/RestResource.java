@@ -26,6 +26,16 @@ public class RestResource {
                 .extract()
                 .response();
     }
+    public static Response postWithToken(String path, String token) {
+        return given()
+                .spec(SpecBuilder.getRequestSpec())
+                .header("Authorization", "Bearer " + token)
+                .when()
+                .post(path)
+                .then().log().body()
+                .extract()
+                .response();
+    }
 
     public static Response addAddress(String endpoint, String token, Object payload) {
         return given()
