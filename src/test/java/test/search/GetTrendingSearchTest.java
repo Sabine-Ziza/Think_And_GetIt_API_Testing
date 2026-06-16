@@ -13,18 +13,13 @@ public class GetTrendingSearchTest {
     public void getTrendingSearchesTest() {
 
         Response response = Thing_GetItApi.getTrendingSearch();
-         response.prettyPrint();
+        response.prettyPrint();
         Assert.assertEquals(response.statusCode(), StatusCode.CODE_200.getCode());
         Assert.assertTrue(response.jsonPath().getBoolean("success"));
         Assert.assertEquals(response.jsonPath().getString("message"), "Success");
         Assert.assertNotNull(response.jsonPath().get("data"));
         List<String> trendingSearches = response.jsonPath().getList("data");
-
         Assert.assertNotNull(trendingSearches);
-
-        Assert.assertFalse(
-                trendingSearches.isEmpty(),
-                "Trending searches should not be empty"
-        );
+        Assert.assertFalse(trendingSearches.isEmpty(), "Trending searches should not be empty");
     }
 }

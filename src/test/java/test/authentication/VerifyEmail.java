@@ -15,6 +15,5 @@ public class VerifyEmail {
         System.out.println(response.statusCode());
         Assert.assertEquals(response.statusCode(), StatusCode.CODE_200.getCode());
 
-
     }
 }

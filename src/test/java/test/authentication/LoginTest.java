@@ -1,4 +1,3 @@
-
 package test.authentication;
 
 import base.Thing_GetItApi;
@@ -12,8 +11,9 @@ public class LoginTest {
     @Test
     public void enterCredentials() {
         Response response = Thing_GetItApi.login();
-
         System.out.println("Response Body: " + response.asPrettyString());
         Assert.assertEquals(response.statusCode(), StatusCode.CODE_200.getCode());
+        Assert.assertTrue(response.jsonPath().getBoolean("success"));
+        Assert.assertEquals(response.jsonPath().getString("message"), "Login successful");
     }
 }

@@ -27,7 +27,7 @@ public class Data {
     public static final String productId ="89c903cd-df0d-441a-9a68-a0b8465a3109";
     public static final Integer quantity = 3;
     public static final  String variantsId = "8e6a3ecb-050c-4768-b1c3-92315b7fb8c5";
-    public static final String paymentMethod ="CASH_ON_DELIVERY";
+    public static final String paymentMethod ="BANK_TRANSFER";
     public static final String couponCode = ("SAVE15NOW");
     public static final String orderMessage ="Order not found";
     public static final String reason ="reason";

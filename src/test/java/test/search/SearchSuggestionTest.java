@@ -24,12 +24,9 @@ public class SearchSuggestionTest {
     public void searchSuggestionNoMatchTest() {
 
         Response response = Thing_GetItApi.getSearchSuggestions("b");
-
         response.then().statusCode(200);
-
         Assert.assertTrue(response.jsonPath().getBoolean("success"));
         Assert.assertEquals(response.jsonPath().getString("message"), "Success");
-
         Assert.assertTrue(
                 response.jsonPath().getList("data").isEmpty(),
                 "Expected no suggestions to be returned"

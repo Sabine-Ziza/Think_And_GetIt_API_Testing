@@ -170,13 +170,14 @@ public class Thing_GetItApi {
 
     public static Response createProduct() {
         String token = login().jsonPath().getString("data.token");
-        String id = login().jsonPath().getString("data.id");
+        String categoryId = getSingleProductBySlug().jsonPath().getString("data.categoryId");
+
         ProductPojo productPojo = new ProductPojo();
 
         productPojo.setName(Data.productName);
         productPojo.setDescription(Data.productDescription);
-        productPojo.setCategoryId(Data.productCategoryId);
-        System.out.println("ID being sent: " + productCategoryId);
+        productPojo.setCategoryId(categoryId);
+        System.out.println("ID being sent: " + categoryId);
         productPojo.setPrice(Data.productPrice);
         productPojo.setComparePrice(Data.productComparePrice);
 
@@ -326,6 +327,8 @@ public class Thing_GetItApi {
     }
 
     public static Response paymentProof() {
+
+
         String token = login().jsonPath().getString("data.token");
         String orderId = getSingleOrder().jsonPath().getString("data.id");
         String path = Route.PAYMENT + orderId + "/payment-proof";

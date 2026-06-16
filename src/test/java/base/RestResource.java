@@ -1,6 +1,7 @@
 
 package base;
 
+import groovyjarjarpicocli.CommandLine;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -108,10 +109,12 @@ public class RestResource {
     public static Response postproof(String endpoint,
                                       String token,
                                       File file) {
-        System.out.println("Base URI = " + RestAssured.baseURI);
-        System.out.println("Endpoint = " + endpoint);
 
-        return given()
+        System.out.println("Endpoint = " + endpoint);
+        System.out.println("File exists: " + file.exists());
+        System.out.println("File path: " + file.getAbsolutePath());
+
+        return given(SpecBuilder.getMultipartRequestSpec())
                 .header("Authorization", "Bearer " + token)
                 .multiPart("proof", file, "image/png")
                 .when()

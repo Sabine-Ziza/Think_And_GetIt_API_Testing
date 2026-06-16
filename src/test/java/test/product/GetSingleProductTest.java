@@ -15,14 +15,13 @@ public class GetSingleProductTest {
         Assert.assertTrue(response.jsonPath().getBoolean("success"));
         Assert.assertEquals(response.jsonPath().getString("message"), "Success");
 
-//        Assert.assertEquals(
-//                response.jsonPath().getString("data.slug"),
-//                "clear-pvc-stadium-tote-bag-bags-11"
-//        );
-//
-//        Assert.assertEquals(
-//                response.jsonPath().getString("data.name"),
-//                "Clear PVC Stadium Tote Bag"
-//        );
+        Assert.assertNotNull(
+                response.jsonPath().getString("data.slug")
+
+        );
+
+        Assert.assertNotNull(
+                response.jsonPath().getString("data.name")
+        );
     }
 }

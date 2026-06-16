@@ -20,5 +20,11 @@ public class SpecBuilder {
             return new ResponseSpecBuilder()
                     .build();
         }
+
+    public static RequestSpecification getMultipartRequestSpec() {
+        return new RequestSpecBuilder()
+                .setBaseUri(ConfigLoader.getBaseUrl())
+                .build();
+    }
     }
 
