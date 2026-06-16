@@ -23,22 +23,27 @@ public class Data {
     public static final String productDescription = "Created via automation test";
     public static final double productPrice = 10.5;
     public static final double productComparePrice = 15.0;
-    public static final String productCategoryId = "87cdfbe4-74e4-4937-bce1-5d3acc159111";
-    public static final String productId ="89c903cd-df0d-441a-9a68-a0b8465a3109";
     public static final Integer quantity = 3;
-    public static final  String variantsId = "8e6a3ecb-050c-4768-b1c3-92315b7fb8c5";
     public static final String paymentMethod ="BANK_TRANSFER";
     public static final String couponCode = ("SAVE15NOW");
     public static final String orderMessage ="Order not found";
     public static final String reason ="reason";
 
     public static final String STATUS_CONFIRMED = "CONFIRMED";
-
     public static final String MESSAGE = "Order confirmed by admin";
-
     public static final String TRACKING_NUMBER = "TRK12345";
     public static final String title = "Great product!";
     public static final String body = "I really like this product. It works perfectly and meets my expectations.";
+
+        public static final String COUPON_CODE = "SAVE20_" + System.currentTimeMillis();
+        public static final String COUPON_DESCRIPTION = "50% discount coupon";
+        public static final String DISCOUNT_TYPE = "PERCENTAGE";
+        public static final int DISCOUNT_VALUE = 50;
+        public static final int MIN_ORDER_AMOUNT = 200;
+        public static final int MAX_USES = 70;
+        public static final String EXPIRES_AT = "2026-06-16T13:40:45.797Z";
+
+
 
 
 

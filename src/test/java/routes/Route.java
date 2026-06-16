@@ -49,5 +49,8 @@ public class Route {
     public static String SEARCH="/search";
     public static String SEARCH_SUGGESTION = "/search/suggestions";
     public static String BANNER="/banners";
+    public static String ADMIN_DASHBOARD="/admin/dashboard";
+    public static String ADMIN_USER ="/admin/users";
+    public static String ADMIN_COUPON ="/admin/coupons";
 
 }

@@ -1,7 +1,6 @@
 package base;
 
 import io.restassured.response.Response;
-import org.yaml.snakeyaml.events.Event;
 import payload.*;
 import payload.register.RegisterPOJO;
 import routes.Route;
@@ -303,7 +302,7 @@ public class Thing_GetItApi {
     public static Response applyCoupon() {
 
         String token = login().jsonPath().getString("data.token");
-        CouponPojo couponPojo = new CouponPojo();
+        CouponRequest couponPojo = new CouponRequest();
         couponPojo.setCode(Data.couponCode);
         System.out.println(Route.COUPON);
         return RestResource.postProduct(Route.COUPON, token, couponPojo);
@@ -439,17 +438,39 @@ public class Thing_GetItApi {
     }
 
     public static Response getSearchSuggestions(String query) {
-
         Map<String, Object> queryParams = new HashMap<>();
         queryParams.put("q", query);
-
         return RestResource.search(Route.SEARCH_SUGGESTION, queryParams);
     }
+
     public static Response getTrendingSearch(){
         return RestResource.get(Route.SEARCH_TRENDING);
     }
+
     public static Response getActiveBanner(){
         return RestResource.get(Route.BANNER);
+    }
+    public static Response getAdminDashboard(){
+        String token = login().jsonPath().getString("data.token");
+        return RestResource.getCurrentUser(Route.ADMIN_DASHBOARD,token);
+    }
+    public static Response getAdminUser(){
+        String token = login().jsonPath().getString("data.token");
+        return RestResource.getCurrentUser(Route.ADMIN_USER, token);
+    }
+
+    public static Response CreateCoupon(){
+        String token = login().jsonPath().getString("data.token");
+        CouponRequest coupon = new CouponRequest();
+
+        coupon.setCode(Data. COUPON_CODE);
+        coupon.setDescription(Data.COUPON_DESCRIPTION);
+        coupon.setDiscountType(Data.DISCOUNT_TYPE);
+        coupon.setDiscountValue(Data.DISCOUNT_VALUE);
+        coupon.setMinOrderAmount(Data.MIN_ORDER_AMOUNT);
+        coupon.setMaxUses(Data.MAX_USES);
+        coupon.setExpiresAt(Data.EXPIRES_AT);
+        return RestResource.postProduct(Route.ADMIN_COUPON, token, coupon);
     }
 }
 
