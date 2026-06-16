@@ -6,14 +6,13 @@ import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-
-import static base.Thing_GetItApi.addProductToCart;
-import static base.Thing_GetItApi.placeOrders;
+import static base.Thing_GetItApi.*;
 
 public class UpdateOrderStatusTest {
     @Test
     public void updateOrderStatusTest() {
-        Response response = Thing_GetItApi.updateOrderStatus();
+        String orderId = getSingleOrder().jsonPath().getString("data.id");
+        Response response = Thing_GetItApi.updateOrderStatus(orderId, Data.STATUS_CONFIRMED);
         addProductToCart();
         placeOrders();
         response.prettyPrint();

@@ -42,7 +42,11 @@ public class Route {
     public static String UPDATE_ORDER_STATUS ="/orders/admin/";
     public static String REVIEWS ="/reviews/";
     public static String SUBMIT_REVIEWS ="/reviews/";
+    public static String SEARCH_TRENDING ="/search/trending";
     public static String WISHLIST ="/wishlist";
     public static String WISHLIST_ADD_PRODUCT ="/wishlist/";
+    public static String WISHLIST_TO_CART ="/wishlist/";
+    public static String SEARCH="/search";
+    public static String SEARCH_SUGGESTION = "/search/suggestions";
 
 }

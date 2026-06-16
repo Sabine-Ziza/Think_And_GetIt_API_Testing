@@ -10,8 +10,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import static base.Data.currentPassword;
-import static base.Data.productCategoryId;
+import static base.Data.*;
 
 
 public class Thing_GetItApi {
@@ -212,12 +211,22 @@ public class Thing_GetItApi {
     }
 
     public static Response addProductToCart() {
+
         String token = login().jsonPath().getString("data.token");
-        String productId = getCartProduct().jsonPath().getString("data.items.productId");
+
+        Response productResponse = getSingleProductBySlug();
+
+        String productId = productResponse.jsonPath().getString("data.id");
+
+        String variantId = productResponse.jsonPath().getString("data.variants[0].id");
+
+        if (variantId == null || variantId.isEmpty()) {
+            throw new RuntimeException("No variant found for product: " + productId);
+        }
         CartPojo cartPojo = new CartPojo();
-        cartPojo.setProductId(Data.productId);
-        cartPojo.setQuantity(Data.quantity);
-        cartPojo.setVariantId(Data.variantsId);
+        cartPojo.setProductId(productId);
+        cartPojo.setQuantity(1);
+        cartPojo.setVariantId(variantId);
         return RestResource.postProduct(Route.ADD_CART, token, cartPojo);
     }
 
@@ -255,6 +264,8 @@ public class Thing_GetItApi {
     }
 
     public static Response placeOrders() {
+        Response response1 = Thing_GetItApi.addProductToCart();
+
         String token = login().jsonPath().getString("data.token");
         Response addressResponse = addNewAddress();
         String addressId = addressResponse.jsonPath().getString("data.id");
@@ -306,9 +317,8 @@ public class Thing_GetItApi {
         return RestResource.patch(path, token);
     }
 
-    public static Response returnOrder() {
+    public static Response returnOrder(String orderId) {
         String token = login().jsonPath().getString("data.token");
-        String orderId = getSingleOrder().jsonPath().getString("data.items[0].orderId");
         String path = Route.RETURN_ORDERS + orderId + "/return";
         OrderPojo orderPojo = new OrderPojo();
         orderPojo.setReason(Data.reason);
@@ -323,30 +333,44 @@ public class Thing_GetItApi {
         return RestResource.postproof(path, token, file);
 
     }
-    public static Response getAllOrders(){
+
+    public static Response getAllOrders() {
         String token = login().jsonPath().getString("data.token");
         return RestResource.getCurrentUser(Route.ALL_ORDERS, token);
     }
-    public static Response updateOrderStatus() {
+
+    public static String getNonDeliveredOrder() {
+        Response response = getAllOrders();
+        String orderId = response.jsonPath().getString("data[0].id");
+        String paymentStatus = response.jsonPath().getString("data[0].paymentStatus");
+
+        if (!paymentStatus.equals("DELIVERED")) {
+            updateOrderStatus(orderId, "DELIVERED");
+        }
+        return orderId;
+    }
+
+    public static Response updateOrderStatus(String orderId, String status) {
         String token = login().jsonPath().getString("data.token");
-        String orderId = getSingleOrder().jsonPath().getString("data.id");
 
-       updateOrderStatusPojo updateOrderStatusPojo = new updateOrderStatusPojo();
-       updateOrderStatusPojo.setMessage(Data.MESSAGE);
-       updateOrderStatusPojo.setStatus(Data.STATUS_CONFIRMED);
-       updateOrderStatusPojo.setTrackingNumber(Data.TRACKING_NUMBER);
+        updateOrderStatusPojo updateOrderStatusPojo = new updateOrderStatusPojo();
+        updateOrderStatusPojo.setMessage(Data.MESSAGE);
+        updateOrderStatusPojo.setStatus(status);
+        updateOrderStatusPojo.setTrackingNumber(Data.TRACKING_NUMBER);
 
-       String path = Route.UPDATE_ORDER_STATUS + orderId + "/status";
+        String path = Route.UPDATE_ORDER_STATUS + orderId + "/status";
 
         return RestResource.patchStatus(path, token, updateOrderStatusPojo);
     }
-    public static Response getReviews(){
+
+    public static Response getReviews() {
         String token = login().jsonPath().getString("data.token");
         String productId = getSingleProductBySlug().jsonPath().getString("data.id");
         String path = Route.REVIEWS + productId;
         return RestResource.getCurrentUser(path, token);
     }
-    public static Response submitReviews(){
+
+    public static Response submitReviews() {
         String token = login().jsonPath().getString("data.token");
         String productId = getSingleProductBySlug().jsonPath().getString("data.id");
         ReviewsPojo reviewsPojo = new ReviewsPojo();
@@ -356,11 +380,13 @@ public class Thing_GetItApi {
         return RestResource.postProduct(path, token, reviewsPojo);
 
     }
-    public static Response getWishlist(){
+
+    public static Response getWishlist() {
         String token = login().jsonPath().getString("data.token");
         return RestResource.getCurrentUser(Route.WISHLIST, token);
     }
-    public static Response addProductToWishlist(){
+
+    public static Response addProductToWishlist() {
         String token = login().jsonPath().getString("data.token");
         String productId = getSingleProductBySlug().jsonPath().getString("data.id");
         String path = Route.WISHLIST_ADD_PRODUCT + productId;
@@ -368,12 +394,56 @@ public class Thing_GetItApi {
         return RestResource.postWithToken(path, token);
     }
 
-    public static Response deleteProductToWishlist(){
+    public static Response deleteProductToWishlist() {
         String token = login().jsonPath().getString("data.token");
-        String productId = getSingleProductBySlug().jsonPath().getString("data.id");
+        String productId = addProductToWishlist().jsonPath().getString("data.id");
         String path = Route.WISHLIST_ADD_PRODUCT + productId;
         System.out.println("Product ID: " + productId);
         return RestResource.delete(path, token);
     }
 
+    public static Response addWishlistToCart() {
+
+        String token = login().jsonPath().getString("data.token");
+
+        Response productResponse = getSingleProductBySlug();
+
+        String productId = productResponse.jsonPath().getString("data.id");
+        String variantId = productResponse.jsonPath().getString("data.variants[0].id");
+
+        if (variantId == null) {
+            throw new RuntimeException("variantId is null. Product has no variants.");
+        }
+
+        String path = Route.WISHLIST_TO_CART + productId + "/move-to-cart";
+
+        Map<String, String> body = new HashMap<>();
+        body.put("variantId", variantId);
+
+        System.out.println("Product ID: " + productId);
+        System.out.println("Variant ID: " + variantId);
+
+        return RestResource.postProduct(path, token, body);
+    }
+
+    public static Response searchProductWithFilter() {
+        Map<String, Object> queryParams = new HashMap<>();
+        queryParams.put("q", "phone");
+        queryParams.put("page", 1);
+        queryParams.put("limit", 20);
+
+        return RestResource.search(Route.SEARCH, queryParams);
+    }
+
+    public static Response getSearchSuggestions(String query) {
+
+        Map<String, Object> queryParams = new HashMap<>();
+        queryParams.put("q", query);
+
+        return RestResource.search(Route.SEARCH_SUGGESTION, queryParams);
+    }
+    public static Response getTrendingSearch(){
+        return RestResource.get(Route.SEARCH_TRENDING);
+    }
 }
+

@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 public class GetProduct {
     @Test
     public void getProductTest() {
+
         Response response = Thing_GetItApi.getProduct(1, 20);
         response.prettyPrint();
 

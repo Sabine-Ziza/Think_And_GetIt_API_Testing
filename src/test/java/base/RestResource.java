@@ -7,6 +7,7 @@ import io.restassured.response.Response;
 import payload.ProductPojo;
 
 import java.io.File;
+import java.util.Map;
 
 import static base.SpecBuilder.getRequestSpec;
 import static base.SpecBuilder.getResponseSpec;
@@ -125,21 +126,35 @@ public class RestResource {
                                        String token,
                                        Object payload) {
 
-        return given()
+        Response response = given()
                 .spec(SpecBuilder.getRequestSpec())
                 .header("Authorization", "Bearer " + token)
                 .body(payload)
                 .when()
                 .post(endpoint)
                 .then()
-                .log().all()
                 .extract()
                 .response();
+
+        System.out.println(response);
+        return response;
     }
 
     public static Response get(String path) {
         return given()
                 .spec(SpecBuilder.getRequestSpec())
+                .log().all()
+                .when()
+                .get(path)
+                .then()
+                .spec(getResponseSpec())
+                .extract()
+                .response();
+    }
+    public static Response search(String path, Map<String, Object> queryParams) {
+        return given()
+                .spec(SpecBuilder.getRequestSpec())
+                .queryParams(queryParams)
                 .log().all()
                 .when()
                 .get(path)
