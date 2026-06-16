@@ -448,5 +448,8 @@ public class Thing_GetItApi {
     public static Response getTrendingSearch(){
         return RestResource.get(Route.SEARCH_TRENDING);
     }
+    public static Response getActiveBanner(){
+        return RestResource.get(Route.BANNER);
+    }
 }
 

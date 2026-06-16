@@ -48,5 +48,6 @@ public class Route {
     public static String WISHLIST_TO_CART ="/wishlist/";
     public static String SEARCH="/search";
     public static String SEARCH_SUGGESTION = "/search/suggestions";
+    public static String BANNER="/banners";
 
 }
