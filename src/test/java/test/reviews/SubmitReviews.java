@@ -13,7 +13,6 @@ public class SubmitReviews {
         response.prettyPrint();
 
         Assert.assertEquals(response.getStatusCode(), 201);
-
         Assert.assertTrue(response.jsonPath().getBoolean("success"));
         Assert.assertEquals(response.jsonPath().getString("message"), "Review submitted");
 

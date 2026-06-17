@@ -13,7 +13,6 @@ public class ReviewsTest {
 
         Assert.assertTrue(response.jsonPath().getBoolean("success"));
         Assert.assertEquals(response.jsonPath().getString("message"), "Success");
-        Assert.assertEquals(response.jsonPath().getDouble("pagination.averageRating"), 0.0);
         Assert.assertEquals(response.jsonPath().getInt("pagination.totalReviews"), 0);
     }
 

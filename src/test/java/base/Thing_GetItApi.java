@@ -374,7 +374,7 @@ public class Thing_GetItApi {
 
     public static Response submitReviews() {
         String token = login().jsonPath().getString("data.token");
-        String productId = getSingleProductBySlug().jsonPath().getString("data.id");
+        String productId = createProduct().jsonPath().getString("data.id");
         ReviewsPojo reviewsPojo = new ReviewsPojo();
         reviewsPojo.setBody(Data.body);
         reviewsPojo.setTitle(Data.title);

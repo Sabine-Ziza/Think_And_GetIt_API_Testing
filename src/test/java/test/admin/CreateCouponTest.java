@@ -13,7 +13,6 @@ public class CreateCouponTest {
         response.prettyPrint();
         Assert.assertEquals(response.statusCode(), StatusCode.CODE_201.getCode());
 
-// Success
         Assert.assertTrue(response.jsonPath().getBoolean("success"));
         Assert.assertEquals(response.jsonPath().getString("message"), "Coupon created");
         Assert.assertNotNull(response.jsonPath().getString("data.id"));
