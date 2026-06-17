@@ -1,6 +1,7 @@
 package base;
 
 import io.restassured.response.Response;
+import org.mozilla.javascript.Token;
 import payload.*;
 import payload.register.AddressPojo;
 import payload.register.RegisterPOJO;
@@ -9,8 +10,7 @@ import routes.Route;
 import java.io.File;
 import java.util.Map;
 
-import static base.Data.currentPassword;
-import static base.Data.productCategoryId;
+import static base.Data.*;
 
 
 public class Thing_GetItApi {
@@ -19,6 +19,18 @@ public class Thing_GetItApi {
         LoginRequest payload = new LoginRequest();
         payload.setEmail(Data.AdminloginEmail);
         payload.setPassword(Data.AdminPassword);
+        System.out.println(payload);
+        System.out.println(payload.getEmail());
+        System.out.println(payload.getPassword());
+
+        return RestResource.post(Route.LOGIN, payload);
+
+    }
+
+    public static Response loginAsCustomer() {
+        LoginRequest payload = new LoginRequest();
+        payload.setEmail(Data.loginEmailAsCustomer);
+        payload.setPassword(Data.loginPasswordAsCustomer);
         System.out.println(payload);
         System.out.println(payload.getEmail());
         System.out.println(payload.getPassword());
@@ -66,11 +78,13 @@ public class Thing_GetItApi {
         String token = login().jsonPath().getString("data.refreshToken");
         return RestResource.post(Route.REFRESH_TOKEN, Map.of("refreshToken", token));
     }
-    public static Response getUserAddress(){
+
+    public static Response getUserAddress() {
         String response = login().jsonPath().getString("data.token");
         return RestResource.getCurrentUser(Route.USER_ADDRESS, response);
     }
-    public static Response addNewAddress(){
+
+    public static Response addNewAddress() {
         AddressPojo addressRequest = new AddressPojo();
         String token = login().jsonPath().getString("data.token");
         System.out.println("Token: " + token);
@@ -91,9 +105,10 @@ public class Thing_GetItApi {
         addressRequest.setLabel(Data.label);
         addressRequest.setLabel(Data.isDefault);
         System.out.println(addressRequest);
-        return RestResource.addAddress(Route.NEW_ADDRESS, token, addressRequest);
+        return RestResource.postPayload(Route.NEW_ADDRESS, token, addressRequest);
     }
-    public static Response getChangePassword(){
+
+    public static Response getChangePassword() {
         ChangePasswordPojo passwordPojo = new ChangePasswordPojo();
         String token = login().jsonPath().getString("data.token");
         passwordPojo.setCurrentPassword(currentPassword);
@@ -102,7 +117,8 @@ public class Thing_GetItApi {
         return RestResource.changePasswords(Route.CHANGE_PASSWORD, token, passwordPojo);
 
     }
-    public static Response updateAvatar(){
+
+    public static Response updateAvatar() {
         System.out.println(">>> updateAvatar STARTED");
 
         Response loginResponse = login();
@@ -116,15 +132,16 @@ public class Thing_GetItApi {
         }
 
 
-            System.out.println("TOKEN = " + token);
+        System.out.println("TOKEN = " + token);
 
         File file = new File(Data.avatarPath);
         System.out.println(file.exists());
         System.out.println(file.length());
 
-        return RestResource.postAvatar(Route.AVATAR_LINK, token, file);
+        return RestResource.postTest(Route.AVATAR_LINK, token, file);
     }
-    public static Response updateProfile(){
+
+    public static Response updateProfile() {
         String token = login().jsonPath().getString("data.token");
         RegisterPOJO registerPOJO = new RegisterPOJO();
         registerPOJO.setPassword(Data.currentPassword);
@@ -135,37 +152,50 @@ public class Thing_GetItApi {
         return RestResource.updateProfile(Route.UPDATE_PROFILE, token, registerPOJO);
 
 
-
     }
-    public static Response getAllCategories(){
+
+    public static Response getAllCategories() {
         return RestResource.get(Route.CATEGORIES);
     }
-    public static Response CreateCategoryAsCustomer(){
-        String token = login().jsonPath().getString("data.token");
-        CategoryPojo categoryPojo=  new CategoryPojo();
+
+    public static Response CreateCategoryAsCustomer() {
+        String token = loginAsCustomer().jsonPath().getString("data.token");
+        CategoryPojo categoryPojo = new CategoryPojo();
         categoryPojo.setDescription(Data.categoryDescription);
         categoryPojo.setName(Data.categoryName);
         categoryPojo.setParentId(Data.categoryParentId);
-        return RestResource.updateProfile(Route.CATEGORIES, token, categoryPojo);
+        return RestResource.postPayload(Route.CATEGORIES, token, categoryPojo);
     }
-    public static Response getSingleCategorySlug(){
+
+    public static Response CreateCategoryAsAdmin() {
+        String token = login().jsonPath().getString("data.token");
+        CategoryPojo categoryPojo = new CategoryPojo();
+        categoryPojo.setDescription(Data.categoryDescription);
+        categoryPojo.setName(Data.categoryName);
+        return RestResource.postPayload(Route.CATEGORIES, token, categoryPojo);
+    }
+
+
+    public static Response getSingleCategorySlug() {
         String slug = getAllCategories().jsonPath().getString("data[1].slug");
         String path = Route.SINGLE_CATEGORIES + slug;
         System.out.println(slug);
         return RestResource.get(path);
 
     }
-    public static Response getProduct(int i, int i1){
+
+    public static Response getProduct(int i, int i1) {
         return RestResource.get(Route.PRODUCT);
     }
-    public static Response createProduct(){
+
+    public static Response createProduct() {
         String token = login().jsonPath().getString("data.token");
-        String id = login().jsonPath().getString("data.id");
+        String productCategoryId = getProduct(1, 2).jsonPath().getString("data[0].categoryId");
         ProductPojo productPojo = new ProductPojo();
 
         productPojo.setName(Data.productName);
         productPojo.setDescription(Data.productDescription);
-        productPojo.setCategoryId(Data.productCategoryId);
+        productPojo.setCategoryId(productCategoryId);
         System.out.println("ID being sent: " + productCategoryId);
         productPojo.setPrice(Data.productPrice);
         productPojo.setComparePrice(Data.productComparePrice);
@@ -173,17 +203,52 @@ public class Thing_GetItApi {
         return RestResource.postProduct(Route.PRODUCT, token, productPojo);
 
     }
-    public static Response getSingleProductBySlug(){
+
+    public static Response getSingleProductBySlug() {
         String slug = getProduct(1, 2).jsonPath().getString("data[0].slug");
         return RestResource.get(Route.SINGLE_PRODUCT + slug);
     }
-    public static Response getTrendingProduct(){
+
+    public static Response updateProduct() {
+        String token = login().jsonPath().getString("data.token");
+        String productId = createProduct().jsonPath().getString("data.id");
+        String categoryId = createProduct().jsonPath().getString("data.categoryId");
+
+        System.out.println("PRODUCT ID: " + productId);
+        String path = Route.RELATED_PRODUCT + productId;
+        ProductPojo productPojo = new ProductPojo();
+        productPojo.setCategoryId(categoryId);
+        productPojo.setName(Data.productName);
+        productPojo.setDescription(Data.productDescription);
+        return RestResource.updateProfile(path, token, productPojo);
+    }
+
+    public static Response deleteProductAsAdmin() {
+        String token = login().jsonPath().getString("data.token");
+        String productId = createProduct().jsonPath().getString("data.id");
+        String path = Route.SINGLE_PRODUCT + productId;
+        System.out.println("Delete URL: " + path);
+        return RestResource.delete(path, token);
+    }
+
+    public static Response uploadProductImageAdmin() {
+        String token = login().jsonPath().getString("data.token");
+        String productId = createProduct().jsonPath().getString("data.id");
+        String path = Route.SINGLE_PRODUCT + productId + "/images";
+        File file = new File(Data.avatarPath);
+        return RestResource.postTest(path, token, file);
+    }
+
+
+    public static Response getTrendingProduct() {
         return RestResource.get(Route.TRANDING_PRODUCT);
     }
-    public static Response getFlashSales(){
+
+    public static Response getFlashSales() {
         return RestResource.get(Route.FLASH_SALES);
     }
-    public static Response getRelatedProduct(){
+
+    public static Response getRelatedProduct() {
         String token = login().jsonPath().getString("data.token");
         String id = getSingleProductBySlug().jsonPath().getString("data.id");
         String path = Route.RELATED_PRODUCT + id + Route.RELATED_PRODUCT_SUFFIX;

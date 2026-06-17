@@ -6,7 +6,8 @@ public class Data {
     public static final String lastName = "ziz" + System.currentTimeMillis();
     public static final String email = "apitesting.sabine" + System.currentTimeMillis() + "@gmail.com";
     public static final String newPassword = "sab12345!!";
-    public static final String loginEmail = "dada@gmail.com";
+    public static final String loginEmailAsCustomer = "johnDoe@gmail.com";
+    public static final String loginPasswordAsCustomer ="johnDoe1234!";
     public static final String currentPassword = "dada123456!";
     public static final String AdminloginEmail = "admin@thinkandgetit.com";
     public static final String AdminPassword = "Admin@123456";
@@ -23,16 +24,16 @@ public class Data {
     public static final String isDefault = String.valueOf(true);;
     public static final String avatarPath = "src/test/resources/avatar.png";
 
-    public static final String categoryName ="jeans";
+    public static final String categoryName ="jeans" + System.currentTimeMillis();
     public static final String categoryDescription ="jeans for women and girl";
-    public static final String categoryParentId = "002";
+    public static final String categoryParentId = "944cfec9-dbc9-4e90-a240-1cc7781233b3";
 
-    public static final String productName = "Test Product";
-    public static final String productDescription = "Created via automation test";
+    public static final String productName = " men's jeans" + System.currentTimeMillis();
+    public static final String productDescription = "Created via update automation test";
     public static final double productPrice = 10.5;
     public static final double productComparePrice = 15.0;
-    public static final String productCategoryId = "87cdfbe4-74e4-4937-bce1-5d3acc159111";
-    public static final String productId ="";
+
+
 
 
 

@@ -1,4 +1,3 @@
-
 package test.authentication;
 
 import base.Thing_GetItApi;
@@ -7,17 +6,15 @@ import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class LoginTest {
-
+public class LoginAsCustomerTest {
     @Test
-    public void enterCredentials() {
-        Response response = Thing_GetItApi.login();
-
-        System.out.println("Response Body: " + response.asPrettyString());
+    public void loginAsCustomerTest(){
+        Response response = Thing_GetItApi.loginAsCustomer();
+        response.prettyPrint();
         Assert.assertEquals(response.statusCode(), StatusCode.CODE_200.getCode());
         Assert.assertEquals(
                 response.jsonPath().getString("data.user.role"),
-                "ADMIN"
+                "CUSTOMER"
         );
     }
 }

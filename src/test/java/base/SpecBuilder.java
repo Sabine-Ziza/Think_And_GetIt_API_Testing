@@ -15,10 +15,18 @@ public class SpecBuilder {
                     .setContentType(ContentType.JSON)
                     .build();
         }
+    public static RequestSpecification getMultipartRequestSpec() {
+        return new RequestSpecBuilder()
+                .setBaseUri(ConfigLoader.getBaseUrl())
+                .setContentType(ContentType.MULTIPART)
+                .build();
+    }
 
-        public static ResponseSpecification getResponseSpec() {
+
+    public static ResponseSpecification getResponseSpec() {
             return new ResponseSpecBuilder()
                     .build();
         }
+
     }
 
