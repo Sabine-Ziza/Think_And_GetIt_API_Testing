@@ -30,7 +30,7 @@ public class Data {
 
     public static final String productName = " men's jeans" + System.currentTimeMillis();
     public static final String productDescription = "Created via update automation test";
-    public static final double productPrice = 10.5;
+    public static final double productPrice = 10.5 + System.currentTimeMillis();
     public static final double productComparePrice = 15.0;
 
 
