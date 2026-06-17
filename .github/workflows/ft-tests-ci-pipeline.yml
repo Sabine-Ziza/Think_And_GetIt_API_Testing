@@ -4,10 +4,12 @@ on:
   push:
     branches:
       - 'ft/**'
+      - 'main'
 
   pull_request:
     branches:
       - 'ft/**'
+      - 'main'
 
 jobs:
   test:
@@ -28,6 +30,11 @@ jobs:
         with:
           path: ~/.m2
           key: maven-${{ hashFiles('**/pom.xml') }}
+
+      - name: Create config.properties
+        run: |
+          mkdir -p src/test/resources
+          echo "base.url=${{ secrets.BASE_URL }}" > src/test/resources/config.properties
 
       - name: Run Tests
         run: mvn clean test
