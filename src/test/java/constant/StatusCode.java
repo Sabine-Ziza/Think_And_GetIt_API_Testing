@@ -4,8 +4,9 @@ public enum StatusCode {
     CODE_200(200, " "),
     CODE_201(201, " "),
     CODE_400(400, " "),
-    CODE_404(404, " "),
+    CODE_403(403, " "),
     CODE_401(401, " ");
+
 
     private final int code;
     private final String msg;
