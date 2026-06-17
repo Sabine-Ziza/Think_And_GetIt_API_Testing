@@ -1,10 +1,8 @@
 package payload;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Setter
-@Getter
+@Data
 public class LoginRequest {
 
     private String email;
