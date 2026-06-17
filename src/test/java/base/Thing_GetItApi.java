@@ -439,7 +439,6 @@ public class Thing_GetItApi {
     }
 
     public static Response getSearchSuggestions(String query) {
-
         Map<String, Object> queryParams = new HashMap<>();
         queryParams.put("q", query);
 
