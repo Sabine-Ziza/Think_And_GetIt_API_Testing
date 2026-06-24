@@ -1,10 +1,19 @@
 
 package base;
 
+import groovyjarjarpicocli.CommandLine;
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import payload.ProductPojo;
 
+import java.io.File;
+import java.util.Map;
+
+import static base.SpecBuilder.getRequestSpec;
 import static base.SpecBuilder.getResponseSpec;
 import static io.restassured.RestAssured.given;
+
 
 public class RestResource {
 
@@ -19,10 +28,137 @@ public class RestResource {
                 .extract()
                 .response();
     }
+    public static Response postWithToken(String path, String token) {
+        return given()
+                .spec(SpecBuilder.getRequestSpec())
+                .header("Authorization", "Bearer " + token)
+                .when()
+                .post(path)
+                .then().log().body()
+                .extract()
+                .response();
+    }
+
+    public static Response addAddress(String endpoint, String token, Object payload) {
+        return given()
+                .header("Authorization", "Bearer " + token)
+                .contentType(ContentType.JSON)
+                .spec(SpecBuilder.getRequestSpec())
+                .body(payload)
+                .when()
+                .post(endpoint)
+                .then()
+                .extract()
+                .response();
+    }
+
+    public static Response updateProfile(String endpoint, String token, Object payload) {
+        return given()
+                .header("Authorization", "Bearer " + token)
+                .contentType(ContentType.JSON)
+                .spec(SpecBuilder.getRequestSpec())
+                .body(payload)
+                .when()
+                .put(endpoint)
+                .then()
+                .extract()
+                .response();
+    }
+
+    public static Response changePasswords(String endpoint,
+                                           String token,
+                                           Object payload) {
+
+        Response response = given()
+                .header("Authorization", "Bearer " + token)
+                .contentType(ContentType.JSON)
+                .spec(SpecBuilder.getRequestSpec())
+                .body(payload)
+                .log().all()
+                .when()
+                .put(endpoint)
+                .then()
+                .log().all()
+                .extract()
+                .response();
+
+
+        return response;
+
+
+    }
+
+    public static Response postAvatar(String endpoint,
+                               String token,
+                               File file) {
+        System.out.println("Base URI = " + RestAssured.baseURI);
+        System.out.println("Endpoint = " + endpoint);
+
+        return given()
+                .header("Authorization", "Bearer " + token)
+                .multiPart("avatar", file, "image/png")
+                .when()
+                .post(endpoint)
+                .then()
+                .log().all()
+                .extract()
+                .response();
+
+    }
+
+    public static Response postproof(String endpoint,
+                                      String token,
+                                      File file) {
+
+        System.out.println("Endpoint = " + endpoint);
+        System.out.println("File exists: " + file.exists());
+        System.out.println("File path: " + file.getAbsolutePath());
+
+        return given(SpecBuilder.getMultipartRequestSpec())
+                .header("Authorization", "Bearer " + token)
+                .multiPart("proof", file, "image/png")
+                .when()
+                .post(endpoint)
+                .then()
+                .log().all()
+                .extract()
+                .response();
+
+    }
+    public static Response postProduct(String endpoint,
+                                       String token,
+                                       Object payload) {
+
+        Response response = given()
+                .spec(SpecBuilder.getRequestSpec())
+                .header("Authorization", "Bearer " + token)
+                .body(payload)
+                .when()
+                .post(endpoint)
+                .then()
+                .extract()
+                .response();
+
+        System.out.println(response);
+        return response;
+    }
 
     public static Response get(String path) {
         return given()
                 .spec(SpecBuilder.getRequestSpec())
+                .log().all()
+                .when()
+                .get(path)
+                .then()
+                .spec(getResponseSpec())
+                .extract()
+                .response();
+    }
+    public static Response search(String path, Map<String, Object> queryParams) {
+        return given()
+                .spec(SpecBuilder.getRequestSpec())
+                .queryParams(queryParams)
+                .log().all()
                 .when()
                 .get(path)
                 .then()
@@ -39,6 +175,44 @@ public class RestResource {
                 .get(path)
                 .then()
                 .spec(getResponseSpec())
+                .extract()
+                .response();
+    }
+
+    public static Response delete(String endpoint, String token) {
+        return given()
+                .spec(SpecBuilder.getRequestSpec())
+                .header("Authorization", "Bearer " + token)
+                .when()
+                .delete(endpoint)
+                .then()
+                .log().all()
+                .extract()
+                .response();
+    }
+    public static Response patch(String endpoint, String token) {
+        return given()
+                .spec(SpecBuilder.getRequestSpec())
+                .header("Authorization", "Bearer " + token)
+                .when()
+                .patch(endpoint)
+                .then()
+                .log().all()
+                .extract()
+                .response();
+    }
+    public static Response patchStatus(String endpoint,
+                                       String token,
+                                       Object payload) {
+
+        return given()
+                .spec(SpecBuilder.getRequestSpec())
+                .header("Authorization", "Bearer " + token)
+                .body(payload)
+                .when()
+                .patch(endpoint)
+                .then()
+                .log().all()
                 .extract()
                 .response();
     }
