@@ -1,4 +1,4 @@
-package test;
+package test.authentication;
 
 import base.Thing_GetItApi;
 import constant.StatusCode;
