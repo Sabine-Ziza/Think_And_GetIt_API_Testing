@@ -1,0 +1,17 @@
+package test.product;
+
+import base.Thing_GetItApi;
+import io.restassured.response.Response;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class GetFlashSales {
+    @Test
+    public void getFlashSalesTest(){
+        Response response = Thing_GetItApi.getFlashSales();
+        response.prettyPrint();
+        Assert.assertEquals(response.statusCode(), 200);
+        Assert.assertFalse(response.getBody().asString().isEmpty());
+
+    }
+}
